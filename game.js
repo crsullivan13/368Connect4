@@ -1,11 +1,30 @@
 let canvas;
 let context;
 
-let chip = {
-    color: 'white',
-    centerX: 20,
-    centerY: 20,
+function Chip(x, y) {
+    color = 'white';
+    centerX = x;
+    centerY = y;
 }
+
+let model = {
+    board : [[],[],[],[],[],[]],
+}
+
+let x = 175;
+let y = 205;
+
+for(let i = 0; i < 6; i ++) {
+    x = 175;
+    for (let j = 0; j < 7; j++) {
+        let temp = new Chip(x, y);
+        model.board[i].push(temp);
+        x += 105;
+    }
+    y += 105;
+}
+
+console.log(model.board);
 
 let tick = () => {
     window.requestAnimationFrame(splat);
