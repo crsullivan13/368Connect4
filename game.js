@@ -1,5 +1,7 @@
 let canvas;
 let context;
+let xInit;
+let yInit;
 
 function Chip(x, y) {
     color = 'white';
@@ -11,17 +13,18 @@ let model = {
     board : [[],[],[],[],[],[]],
 }
 
-let x = 175;
-let y = 205;
+xInit = 175;
+yInit = 205;
 
+//fills in the model
 for(let i = 0; i < 6; i ++) {
-    x = 175;
+    xInit = 175;
     for (let j = 0; j < 7; j++) {
-        let temp = new Chip(x, y);
+        let temp = new Chip(xInit, yInit);
         model.board[i].push(temp);
-        x += 105;
+        xInit += 105;
     }
-    y += 105;
+    yInit += 105;
 }
 
 console.log(model.board);
@@ -38,10 +41,20 @@ let splat = () => {
     context.fillStyle = "blue";
     context.fillRect(120, 150, 740, 635);
 
+    xInit = 122;
+    yInit = 45;
+
+    for(let i = 0; i < 7; i++) {
+        context.fillStyle = "black";
+        context.rect(xInit,yInit,105,105);
+        context.stroke();
+        xInit += 105;
+    }
+
     context.globalCompositeOperation = 'destination-out';
 
-    let xInit = 175;
-    let yInit = 205;
+    xInit = 175;
+    yInit = 205;
     for(let i = 0; i < 6; i++) {
         xInit = 175;
         for(let j = 0; j < 7; j++) {
