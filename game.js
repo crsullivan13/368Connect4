@@ -27,10 +27,16 @@ for(let i = 0; i < 6; i ++) {
     yInit += 105;
 }
 
+//ceiling((x-44)/224) - 1
+
 console.log(model.board);
 
 let tick = () => {
     window.requestAnimationFrame(splat);
+}
+
+let roundMe = (x) => {
+    return Math.ceil((x - 134)/105);
 }
 
 let splat = () => {
