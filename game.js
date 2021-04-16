@@ -35,8 +35,12 @@ let tick = () => {
     window.requestAnimationFrame(splat);
 }
 
-let roundMe = (x) => {
+let roundMeX = (x) => {
     return Math.ceil((x - 134)/105);
+}
+
+let roundMeY = (y) => {
+    return Math.ceil((y - 50)/105);
 }
 
 let splat = () => {
