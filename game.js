@@ -2,32 +2,21 @@ let canvas;
 let context;
 let xInit;
 let yInit;
-
-function Chip(x, y) {
-    color = 'white';
-    centerX = x;
-    centerY = y;
-}
+let color;
+let turn = 'r';
 
 let model = {
     board : [[],[],[],[],[],[]],
 }
 
-xInit = 175;
-yInit = 205;
 
 //fills in the model
 for(let i = 0; i < 6; i ++) {
-    xInit = 175;
     for (let j = 0; j < 7; j++) {
-        let temp = new Chip(xInit, yInit);
-        model.board[i].push(temp);
-        xInit += 105;
+        model.board[i][j] = 'w';
     }
-    yInit += 105;
 }
 
-//ceiling((x-44)/224) - 1
 
 console.log(model.board);
 
@@ -36,12 +25,41 @@ let tick = () => {
 }
 
 let roundMeX = (x) => {
-    return Math.ceil((x - 134)/105);
+    return Math.ceil((x - 134)/105) - 1;
 }
 
 let roundMeY = (y) => {
-    return Math.ceil((y - 50)/105);
+    return Math.ceil((y - 50)/105) - 1;
 }
+
+document.addEventListener("click" , e => {
+    const i = roundMeX(e.x);
+    const j = roundMeY(e.y);
+    console.log(i + " " + j);
+
+    if(i < 0 || i > 6) {return}
+    if(j != 0) {return}
+
+    context.globalCompositeOperation = 'source-over';
+    //context.fillStyle = "red";
+
+    for(let k = 0; k < 6; k++) {
+        if(model.board[5-k][i] === 'w') {
+            console.log("Color change")
+            model.board[5-k][i] = 'r';
+            (turn === 'r') ? context.fillStyle = "red" : context.fillStyle = "yellow";
+            console.log(model.board[k][i] + " " + k + " " + i);
+            context.beginPath();
+            context.arc((i*105) + 175 , 730-(k*105) , 50 , 0 , 2 * Math.PI);
+            context.stroke();
+            context.fill();
+            (turn === 'r') ? turn='y' : turn = 'r';
+            console.log(turn);
+            break;
+        }
+    }
+    //console.log(model.board);
+})
 
 let splat = () => {
     context.clearRect(0, 0, canvas.width, canvas.height);
@@ -79,7 +97,7 @@ let splat = () => {
     }
     
 
-    tick();
+    //tick();
 }
 
 document.addEventListener("DOMContentLoaded", () => {
