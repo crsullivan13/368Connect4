@@ -4,7 +4,7 @@ let xInit;
 let yInit;
 let color;
 let turn = 'r';
-let winner;
+let winner = 'w';
 
 let model = {
     board : [[],[],[],[],[],[]],
@@ -149,6 +149,17 @@ let checkWin = (row, col) => {
             break;
         }
     }
+}
+
+let drawWinScreen = () => {
+    let printWinner;
+    context.clearRect(0,0,canvas.width,canvas.height);
+    context.font = "30pt Calibri";
+    context.fillStyle = "black";
+    winner === 'r' ? printWinner = 'red' : printWinner = 'yellow';
+    let text = "The " + printWinner + " chips won!";
+    context.fillText(JSON.stringify(text), 300, 450);
+    
 
 }
 
@@ -164,7 +175,7 @@ document.addEventListener("click" , e => {
     //context.fillStyle = "red";
 
     for(let k = 0; k < 6; k++) {
-        if(model.board[5-k][i] === 'w') {
+        if(model.board[5-k][i] === 'w' && winner === 'w') {
             console.log("Color change")
             model.board[5-k][i] = turn;
             (turn === 'r') ? context.fillStyle = "red" : context.fillStyle = "yellow";
@@ -176,6 +187,9 @@ document.addEventListener("click" , e => {
             checkWin(5-k, i);
             (turn === 'r') ? turn='y' : turn = 'r';
             console.log(turn);
+            if(winner !== 'w') {
+                drawWinScreen();
+            }
             break;
         }
     }
