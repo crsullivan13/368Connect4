@@ -123,6 +123,33 @@ let checkWin = (row, col) => {
         }
     }
 
+    count = 1;
+    posCont = 1;
+    negCont = 1;
+    for(let i = 0; i < 4; i++) {
+        if(col-i-1 >= 0 && row-i-1 >= 0 && posCont) {
+            if(turn === model.board[row-i-1][col-i-1]) {
+                count++;
+            } else {
+                posCont = 0;
+            }
+        }
+
+        if(col+i+1 <= 6 && row+i+1 <= 5 && negCont) {
+            if(turn === model.board[row+i+1][col+i+1]) {
+                count++;
+            } else {
+                negCont = 0;
+            }
+        }
+
+        if(count === 4) {
+            winner = turn;
+            console.log(winner + "WON diag-");
+            break;
+        }
+    }
+
 }
 
 document.addEventListener("click" , e => {
