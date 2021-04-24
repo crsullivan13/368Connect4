@@ -40,28 +40,49 @@ let roundMeY = (y) => {
 //one for cols, one for rows, one for left diag, one for right diag
 
 let checkWin = (row, col) => {
-    let count = 0;
+    console.log(row + " " + col + " ye");
+    let count = 1;
     for(let i = 0; i < 4; i++) {
-        if(i+row <= 5) {
-            if(turn === model.board[i+row][col]) {
+        if(i+row+1 <= 5) {
+            if(turn === model.board[i+row+1][col]) {
                 count++;
             }
         }
 
-        if(i-row >= 0) {
-            if(turn === model.board[i-row][col]) {
+        if(row-i-1 >= 0) {
+            if(turn === model.board[row-i-1][col]) {
                 count++;
             }
         }
 
         if(count === 4) {
             winner = turn;
-            console.log(winner + "WON");
+            console.log(winner + "WON vert");
             break;
         }
     }
 
-    
+    count = 1;
+    for(let i = 0; i < 4; i++) {
+        if(i+col+1 <= 6) {
+            if(turn === model.board[row][i+col+1]) {
+                count++;
+            }
+        }
+
+        if(col-i-1 >= 0) {
+            if(turn === model.board[row][col-i-1]) {
+                count++;
+            }
+        }
+
+        console.log(count);
+        if(count === 4) {
+            winner = turn;
+            console.log(winner + "WON horiz");
+            break;
+        }
+    }
 
 }
 
