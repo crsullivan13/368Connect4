@@ -4,11 +4,11 @@ let xInit;
 let yInit;
 let color;
 let turn = 'r';
+let winner;
 
 let model = {
     board : [[],[],[],[],[],[]],
 }
-
 
 //fills in the model
 for(let i = 0; i < 6; i ++) {
@@ -16,7 +16,6 @@ for(let i = 0; i < 6; i ++) {
         model.board[i][j] = 'w';
     }
 }
-
 
 console.log(model.board);
 
@@ -30,6 +29,40 @@ let roundMeX = (x) => {
 
 let roundMeY = (y) => {
     return Math.ceil((y - 50)/105) - 1;
+}
+
+//check win
+//check from last chip dropped, go clockwise starting vertically
+//basically check in one direction until white or other color, keep track of count, then go
+//back to the og chip and go the other direction, then switch to new axis
+//need to check for out of bounds
+//i think mutiple recursive funcs
+//one for cols, one for rows, one for left diag, one for right diag
+
+let checkWin = (row, col) => {
+    let count = 0;
+    for(let i = 0; i < 4; i++) {
+        if(i+row <= 5) {
+            if(turn === model.board[i+row][col]) {
+                count++;
+            }
+        }
+
+        if(i-row >= 0) {
+            if(turn === model.board[i-row][col]) {
+                count++;
+            }
+        }
+
+        if(count === 4) {
+            winner = turn;
+            console.log(winner + "WON");
+            break;
+        }
+    }
+
+    
+
 }
 
 document.addEventListener("click" , e => {
@@ -46,13 +79,14 @@ document.addEventListener("click" , e => {
     for(let k = 0; k < 6; k++) {
         if(model.board[5-k][i] === 'w') {
             console.log("Color change")
-            model.board[5-k][i] = 'r';
+            model.board[5-k][i] = turn;
             (turn === 'r') ? context.fillStyle = "red" : context.fillStyle = "yellow";
             console.log(model.board[k][i] + " " + k + " " + i);
             context.beginPath();
             context.arc((i*105) + 175 , 730-(k*105) , 50 , 0 , 2 * Math.PI);
             context.stroke();
             context.fill();
+            checkWin(5-k, i);
             (turn === 'r') ? turn='y' : turn = 'r';
             console.log(turn);
             break;
