@@ -42,16 +42,22 @@ let roundMeY = (y) => {
 let checkWin = (row, col) => {
     console.log(row + " " + col + " ye");
     let count = 1;
+    let posCont = 1;
+    let negCont = 1;
     for(let i = 0; i < 4; i++) {
-        if(i+row+1 <= 5) {
+        if(i+row+1 <= 5 && posCont) {
             if(turn === model.board[i+row+1][col]) {
                 count++;
+            } else {
+                posCont = 0;
             }
         }
 
-        if(row-i-1 >= 0) {
+        if(row-i-1 >= 0 && negCont) {
             if(turn === model.board[row-i-1][col]) {
                 count++;
+            } else {
+                negCont = 0;
             }
         }
 
@@ -63,23 +69,56 @@ let checkWin = (row, col) => {
     }
 
     count = 1;
+    posCont = 1;
+    negCont = 1;
     for(let i = 0; i < 4; i++) {
-        if(i+col+1 <= 6) {
+        if(i+col+1 <= 6 && posCont) {
             if(turn === model.board[row][i+col+1]) {
                 count++;
+            } else {
+                posCont = 0;
             }
         }
 
-        if(col-i-1 >= 0) {
+        if(col-i-1 >= 0 && negCont) {
             if(turn === model.board[row][col-i-1]) {
                 count++;
+            } else {
+                negCont = 0;
             }
         }
 
-        console.log(count);
+        //console.log(count);
         if(count === 4) {
             winner = turn;
             console.log(winner + "WON horiz");
+            break;
+        }
+    }
+
+    count = 1;
+    posCont = 1;
+    negCont = 1;
+    for(let i = 0; i < 4; i++) {
+        if(col-i-1 >= 0 && i+row+1 <= 5 && negCont) {
+            if(turn === model.board[i+row+1][col-i-1]) {
+                count++;
+            } else {
+                negCont = 0;
+            }
+        }
+
+        if(col+i+1 <= 6 && row-i-1 >= 0 && posCont) {
+            if(turn === model.board[row-i-1][col+i+1]) {
+                count++;
+            } else {
+                posCont = 0;
+            }
+        }
+
+        if(count === 4) {
+            winner = turn;
+            console.log(winner + "WON diag+");
             break;
         }
     }
